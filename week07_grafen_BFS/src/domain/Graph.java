@@ -49,6 +49,18 @@ public class Graph {
         ancestors[start - 1] = 0;
 
         // oefening 1.4
+        while (!queue.isEmpty()) {
+            int huidig = queue.remove();
+
+            for (int index = 0 ; index < verbindingsMatrix.length; index++) {
+                if (verbindingsMatrix[huidig - 1][index] == 1 && ancestors[index] == infty) {
+                    ancestors[index] = huidig;
+                    queue.add(index + 1);
+                }
+            }
+
+
+        }
 
         return ancestors;
     }
