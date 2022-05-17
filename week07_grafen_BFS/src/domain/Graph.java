@@ -58,8 +58,6 @@ public class Graph {
                     queue.add(index + 1);
                 }
             }
-
-
         }
 
         return ancestors;

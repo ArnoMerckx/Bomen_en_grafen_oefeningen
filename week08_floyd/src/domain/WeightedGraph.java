@@ -41,27 +41,42 @@ public class WeightedGraph {
 
         }
 
-
+        for (int tussenknoop = 0; tussenknoop < getAantalKnopen(); tussenknoop ++){
+            for(int van = 0; van < getAantalKnopen(); van ++){
+                for(int naar = 0; naar < getAantalKnopen(); naar++){
+                    if (DMatrix[van][naar] > DMatrix[van][tussenknoop] + DMatrix[tussenknoop][naar]){
+                        DMatrix[van][naar] = DMatrix[van][tussenknoop] + DMatrix[tussenknoop][naar];
+                        pointerMatrix[van][naar] = tussenknoop + 1;
+                    }
+                }
+            }
+        }
 		return pointerMatrix;
 	}
 
 	public List<Integer> getShortestPath(int i, int j, int[][] pointer) {
-		List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
+        
+        if (i == 0) {
+            res.add(j);
+            return res;
+        }
+        else if (j == 0) {
+            res.add(i);
+            return res;
+   
+        }
         if (i == j) {
             return res;
-        } else {
-            int via = pointer[i - 1][j - 1];
-            if (via == 0){
-                res.add(i);
-                res.add(j);
-            } else {
-                res = getShortestPath(i, via, pointer);
-                res.remove(res.size() - 1);
-                res.addAll(getShortestPath(via, j, pointer));
-            }
         }
-        return res;
-    }
+        System.out.println("Van: " + i + " Naar: " + j);
+        int tussenknoop = pointer[i - 1][j - 1] ;
+        System.out.println("Tussenstation: " + tussenknoop);
+        res.addAll(getShortestPath(i, tussenknoop , pointer));
+        res.addAll(getShortestPath(tussenknoop, j, pointer));
+		return res;
+
+	}
 
 	public int berekenLengte(List<Integer> pad) {
 		int som = 0;
